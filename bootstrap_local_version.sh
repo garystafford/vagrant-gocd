@@ -1,11 +1,9 @@
 #! /usr/bin/env bash
 
-cd /vagrant
-
 # Install Oracle JDK
 file=jdk-8u60-linux-x64.rpm
 sudo rpm -ivh ${file}
-sed -i.bkp '/PATH=/i export JAVA_HOME=/usr/java/jdk1.8.0_60' /home/vagrant/.bash_profile
+sed -i.bkp '/PATH=/i export JAVA_HOME=/usr/java/jdk1.8.0_60' ~/.bash_profile
 javac -version
 
 # Install Gradle
@@ -15,8 +13,7 @@ sudo yum install -y unzip
 unzip ${file}
 sudo mkdir /usr/local/gradle/
 sudo mv gradle-${version} /usr/local/gradle/gradle-${version}
-sed -i.bkp '/PATH=/i export GRADLE_HOME=/usr/local/gradle/gradle-2.7' /home/vagrant/.bash_profile
-sed -i.bkp '/PATH=/i PATH=$PATH:$JAVA_HOME/bin:$GRADLE_HOME/bin' /home/vagrant/.bash_profile
+sed -i.bkp '/PATH=/i export GRADLE_HOME=/usr/local/gradle/gradle-2.7' ~/.bash_profile
 gradle --version
 
 # Install go-server and go-agent
@@ -28,22 +25,21 @@ sudo rpm -ivh go-agent-${version}.noarch.rpm
 file=gocd-gradle-plugin-1.0.0.jar
 plugin_path=/var/lib/go-server/plugins/external
 sudo cp ${file} ${plugin_path}/${file}
-sed -i.bkp '/PATH=/i export GO_SERVER=192.168.1.27' /home/vagrant/.bash_profile
+sed -i.bkp '/PATH=/i export GO_SERVER=192.168.1.76' ~/.bash_profile
 
-# firewalld vs. iptables
-sudo systemctl restart firewalld.service # make sure it is running
-sudo firewall-cmd --permanent --zone=public --add-port=22/tcp
-sudo firewall-cmd --permanent --zone=public --add-port=8153/tcp
-sudo firewall-cmd --permanent --zone=public --add-port=8154/tcp
-sudo systemctl restart firewalld.service
-sudo firewall-cmd --zone=public --list-all
+sed -i.bkp '/PATH=/i PATH=$PATH:$JAVA_HOME/bin:$GRADLE_HOME/bin' ~/.bash_profile
+
+#sudo gedit /etc/default/go-server # change 8153 and 8154
+#sudo gedit /etc/default/go-agent # change 8153 and 8154
 
 # firewalld vs. iptables
 #https://blog.christophersmart.com/2014/01/15/add-permanent-rules-to-firewalld/
-#sudo iptables -I INPUT 1 -p tcp --dport 8153 -j ACCEPT
-#sudo iptables -I INPUT 1 -p tcp --dport 8154 -j ACCEPT
-#sudo iptables -L -n | grep 815
-# cat /var/log/go-agent/go-agent.log # check for connection errors
+sudo systemctl restart firewalld.service # make sure it is running
+sudo firewall-cmd --permanent --zone=public --add-port=22/tcp
+sudo firewall-cmd --permanent --zone=public --add-port=8163/tcp
+sudo firewall-cmd --permanent --zone=public --add-port=8164/tcp
+sudo systemctl restart firewalld.service
+sudo firewall-cmd --zone=public --list-all
 
 sudo /etc/init.d/go-server restart && \
 sudo /etc/init.d/go-agent restart
