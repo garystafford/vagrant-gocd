@@ -1,0 +1,80 @@
+sudo dnf install terminator
+
+Install VirtualBox
+==================
+cd ~/Downloads
+wget http://download.virtualbox.org/virtualbox/5.0.6/VirtualBox-5.0-5.0.6_103037_fedora22-1.x86_64.rpm
+sudo rpm -ivh VirtualBox-5.0-5.0.6_103037_fedora22-1.x86_64.rpm
+
+Install Vagrant
+===============
+wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.rpm
+sudo rpm -ivh vagrant_1.7.4_x86_64.rpm
+
+Install go server/agent
+=======================
+http://www.go.cd/documentation/user/current/installation/install/server/linux.html#rpm-based-distributions-ie-redhatcentosfedora
+
+version=15.2.0-2248
+
+wget http://download.go.cd/gocd-rpm/go-server-${version}.noarch.rpm
+sudo rpm -ivh go-server-${version}.noarch.rpm
+sudo /etc/init.d/go-server start
+
+wget http://download.go.cd/gocd-rpm/go-agent-${version}.noarch.rpm
+sudo rpm -ivh go-agent-${version}.noarch.rpm
+sudo /etc/init.d/go-agent start
+curl -I http://localhost:8153/go
+
+Not used due to unsigned rmp issue:
+#sudo yum-config-manager --add-repo http://dl.bintray.com/gocd/gocd-rpm/
+#sudo dnf -y install go-server
+#sudo dnf -y install go-agent
+#sudo dnf -y install go-server go-agent
+
+Install Gradle Plug-ins
+=======================
+http://www.go.cd/community/plugins.html
+ls -alH /var/lib/go-server/plugins
+
+file=gocd-gradle-plugin-1.0.0.jar
+plugin_path=/var/lib/go-server/plugins/external
+wget https://github.com/jmnarloch/gocd-gradle-plugin/releases/download/1.0.0/${file}
+sudo mv ${file} ${plugin_path}/${file}
+sudo /etc/init.d/go-server restart
+
+#sudo chown go:go ${plugin_path}/${file}
+#sudo chmod 755 ${plugin_path}/${file} 
+
+
+Install Oracle JDK
+==================
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.htm
+cd ~/Downloads
+file=jdk-8u60-linux-x64.rpm
+wget http://download.oracle.com/otn-pub/java/jdk/8u60-b27/${file}
+sudo rpm -ivh ${file}
+javac -version
+sudo gedit ~/.bashrc
+export JAVA_HOME=/usr/java/jdk1.8.0_60
+PATH=$PATH:$JAVA_HOME/bin
+
+
+Install Gradle
+==============
+http://codetutr.com/2013/03/23/how-to-install-gradle/http://codetutr.com/2013/03/23/how-to-install-gradle/
+https://docs.gradle.org/current/userguide/installation.html
+
+cd ~/Downloads
+version=2.7
+file=gradle-${version}-bin.zip
+wget https://services.gradle.org/distributions/${file}
+unzip ${file}
+sudo mkdir /usr/local/gradle/
+sudo mv gradle-${version} /usr/local/gradle/gradle-${version}
+sudo gedit ~/.bashrc
+PATH=$PATH:/usr/local/gradle/gradle-2.7/bin
+bash --login
+gradle --version
+
+

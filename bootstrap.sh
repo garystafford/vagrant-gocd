@@ -16,7 +16,6 @@ unzip ${file}
 sudo mkdir /usr/local/gradle/
 sudo mv gradle-${version} /usr/local/gradle/gradle-${version}
 sed -i.bkp '/PATH=/i export GRADLE_HOME=/usr/local/gradle/gradle-2.7' /home/vagrant/.bash_profile
-sed -i.bkp '/PATH=/i PATH=$PATH:$JAVA_HOME/bin:$GRADLE_HOME/bin' /home/vagrant/.bash_profile
 gradle --version
 
 # Install go-server and go-agent
@@ -28,7 +27,11 @@ sudo rpm -ivh go-agent-${version}.noarch.rpm
 file=gocd-gradle-plugin-1.0.0.jar
 plugin_path=/var/lib/go-server/plugins/external
 sudo cp ${file} ${plugin_path}/${file}
-sed -i.bkp '/PATH=/i export GO_SERVER=192.168.1.27' /home/vagrant/.bash_profile
+#ip_addr=$(ip addr list eth1 |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
+ip_addr=hostname -I | awk '{ print $2}'
+sed -i.bkp "/PATH=/i export GO_SERVER=${ip_addr}" /home/vagrant/.bash_profile
+
+sed -i.bkp '/PATH=/i PATH=$PATH:$JAVA_HOME/bin:$GRADLE_HOME/bin' /home/vagrant/.bash_profile
 
 # firewalld vs. iptables
 sudo systemctl restart firewalld.service # make sure it is running
@@ -45,6 +48,7 @@ sudo firewall-cmd --zone=public --list-all
 #sudo iptables -L -n | grep 815
 # cat /var/log/go-agent/go-agent.log # check for connection errors
 
-sudo /etc/init.d/go-server restart && \
+sudo /etc/init.d/go-server restart
+sleep 10
 sudo /etc/init.d/go-agent restart
-# cat /var/log/go-agent/go-agent.log # check for connection errors
+/etc/init.d/go-server status && /etc/init.d/go-agent status # check status
