@@ -5,13 +5,13 @@ Install Java and Gradle
 Install Gradle plug-in for ThoughtWorks' go.
 
 The following files need to be loaded in the project's directory, before running `vagrant up`
+* `jdk-8u60-linux-x64.rpm`
+* `gradle-2.7-bin.zip`
+* `go-server-15.2.0-2248.noarch.rpm`
 * `go-agent-15.2.0-2248.noarch.rpm`
 * `gocd-gradle-plugin-1.0.0.jar`
-* `go-server-15.2.0-2248.noarch.rpm`
-* `gradle-2.7-bin.zip`
-* `jdk-8u60-linux-x64.rpm`
 
-If any released versions are different than above files, change the `bootstrap.sh` file to reflect version differences, before running `vagrant up`
+If versions are different than above files, change the `bootstrap.sh` file to reflect version differences, before running `vagrant up`
 
 Assumes the VM's primary IP address, used for `GO_SERVER` environment variable, can be derived from:
 ```bash
