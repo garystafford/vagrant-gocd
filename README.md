@@ -20,6 +20,6 @@ sed -i.bkp "/PATH=/i export GO_SERVER=${ip_addr}" /home/vagrant/.bash_profile
 ```
 
 #### Troubleshooting
-`cat /var/log/go-server/go-server.log` # check for errors
-`cat /var/log/go-agent/go-agent.log` # check for connection errors
-`/etc/init.d/go-server status && /etc/init.d/go-agent` status # check running
+* `cat /var/log/go-server/go-server.log` # check for connection errors
+* `cat /var/log/go-agent/go-agent.log` # check for connection errors
+* s`/etc/init.d/go-server status && /etc/init.d/go-agent` status # check both are running
