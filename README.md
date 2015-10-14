@@ -19,6 +19,8 @@ ip_addr=$(hostname -I | awk '{ print $2}')
 sed -i.bkp "/PATH=/i export GO_SERVER=${ip_addr}" /home/vagrant/.bash_profile
 ```
 
+To build project, run a `vagrant up`.
+
 #### Troubleshooting
 * `cat /var/log/go-server/go-server.log` # check for connection errors
 * `cat /var/log/go-agent/go-agent.log` # check for connection errors
