@@ -15,11 +15,11 @@ If any released versions are different than above files, change the `bootstrap.s
 
 Assumes the VM's primary IP address, used for `GO_SERVER` environment variable, can be derived from:
 ```bash
-ip_addr=hostname -I | awk '{ print $2}'
+ip_addr=$(hostname -I | awk '{ print $2}')
 sed -i.bkp "/PATH=/i export GO_SERVER=${ip_addr}" /home/vagrant/.bash_profile
 ```
 
 #### Troubleshooting
 * `cat /var/log/go-server/go-server.log` # check for connection errors
 * `cat /var/log/go-agent/go-agent.log` # check for connection errors
-* s`/etc/init.d/go-server status && /etc/init.d/go-agent` status # check both are running
+* `/etc/init.d/go-server status && /etc/init.d/go-agent` status # check both are running

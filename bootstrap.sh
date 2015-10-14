@@ -28,7 +28,7 @@ file=gocd-gradle-plugin-1.0.0.jar
 plugin_path=/var/lib/go-server/plugins/external
 sudo cp ${file} ${plugin_path}/${file}
 #ip_addr=$(ip addr list eth1 |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
-ip_addr=hostname -I | awk '{ print $2}'
+ip_addr=$(hostname -I | awk '{ print $2}')
 sed -i.bkp "/PATH=/i export GO_SERVER=${ip_addr}" /home/vagrant/.bash_profile
 
 sed -i.bkp '/PATH=/i PATH=$PATH:$JAVA_HOME/bin:$GRADLE_HOME/bin' /home/vagrant/.bash_profile
