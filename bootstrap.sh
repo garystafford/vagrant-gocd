@@ -48,7 +48,8 @@ sudo firewall-cmd --zone=public --list-all
 #sudo iptables -L -n | grep 815
 # cat /var/log/go-agent/go-agent.log # check for connection errors
 
-sudo /etc/init.d/go-server restart
-sleep 10
-sudo /etc/init.d/go-agent restart
-/etc/init.d/go-server status && /etc/init.d/go-agent status # check status
+sudo /etc/init.d/go-server restart && \
+sleep 10 && \
+sudo /etc/init.d/go-agent restart && \
+/etc/init.d/go-server status && \
+/etc/init.d/go-agent status # check status

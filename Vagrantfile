@@ -12,5 +12,6 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: "bootstrap.sh"
   config.vm.provider :virtualbox do |vb|
  	vb.customize ["modifyvm", :id, "--name", "go-server"]
+  	vb.memory = 2048
   end
 end

@@ -43,7 +43,8 @@ sudo firewall-cmd --permanent --zone=public --add-port=8164/tcp
 sudo systemctl restart firewalld.service
 sudo firewall-cmd --zone=public --list-all
 
-sudo /etc/init.d/go-server restart
-sleep 10
-sudo /etc/init.d/go-agent restart
-/etc/init.d/go-server status && /etc/init.d/go-agent status # check status
+sudo /etc/init.d/go-server restart && \
+sleep 10 && \
+sudo /etc/init.d/go-agent restart && \
+/etc/init.d/go-server status && \
+/etc/init.d/go-agent status # check status
