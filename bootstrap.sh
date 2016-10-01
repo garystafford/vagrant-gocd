@@ -23,7 +23,7 @@ javac -version
 # (https://gist.github.com/parzonka/9371885 - pzbitskiy)
 gradle_version=3.1
 mkdir /opt/gradle
-wget -N http://services.gradle.org/distributions/gradle-${gradle_version}-all.zip
+wget -qN http://services.gradle.org/distributions/gradle-${gradle_version}-all.zip
 unzip -oq ./gradle-${gradle_version}-all.zip -d /opt/gradle
 ln -sfnv gradle-${gradle_version} /opt/gradle/latest
 printf "export GRADLE_HOME=/opt/gradle/latest\nexport PATH=\$PATH:\$GRADLE_HOME/bin" > /etc/profile.d/gradle.sh
@@ -51,6 +51,7 @@ sudo dnf install -y go-agent
 # Install Gradle plugin for GoCD
 gradle_plugin=gocd-gradle-plugin-1.0.6.jar
 plugin_path=/var/lib/go-server/plugins/external
+wget -qN https://github.com/jmnarloch/gocd-gradle-plugin/releases/download/1.0.6/${gradle_plugin}
 sudo cp ${gradle_plugin} ${plugin_path}/${gradle_plugin}
 
 # Set GoCD environment variables
