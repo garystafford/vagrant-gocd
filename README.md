@@ -1,4 +1,4 @@
-## Vagrant GoCD Server/Agent Setup
+## Vagrant Fedora VM with ThoughtWorks GoCD Server/Agent
 
 **Objectives**
 
@@ -35,5 +35,5 @@ If everything started correctly, open GoCD in a browser at `http:localhost:8153/
 -   [GoCD](https://www.go.cd/)
 -   [GoCD Plugins](https://www.go.cd/plugins/)
 -   [GoCD Gradle Plugin](https://github.com/jmnarloch/gocd-gradle-plugin)
--   [Vagrant]\(<https://github.com/mitchellh/vagrant>
+-   [Vagrant](https://github.com/mitchellh/vagrant)
 )
