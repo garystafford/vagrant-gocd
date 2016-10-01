@@ -4,18 +4,18 @@
 
 -   Create a Vagrant VM based on Fedora (`Fedora 24 Workstation Edition`)
 -   Install the latest ThoughtWorks GoCD Server and Agent (`16.10.0-4131`)
--   Install the latest versions of the Java OpenJDK (`1.8.0_102`)
+-   Install the latest versions of the Java OpenJDK (`1.8.0_103`)
 -   Install the latest versions of the Gradle (`3.1`)
 -   Install the latest Gradle plug-in for ThoughtWorks' GoCD (`1.0.6`)
 
 #### Dependencies
 
-The following files need to be in the project's directory prior running `vagrant up`
+The the `bootstrap.sh` script pulls these specific versions of the project's dependencies:
 
--   `jdk-8u101-linux-x64.rpm`
+-   `jdk-8u102-linux-x64.rpm`
 -   `gocd-gradle-plugin-1.0.6.jar`
 
-If versions are different than above files, change the `bootstrap.sh` file to reflect version differences.
+If updating versions, change the `bootstrap.sh` file to reflect version differences.
 
 #### Startup
 
