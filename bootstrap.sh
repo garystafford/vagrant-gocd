@@ -1,37 +1,63 @@
-#! /usr/bin/env bash
+#!/bin/sh
+
+########################################################################
+# title:          Bootstrap a GoCD Server/Agent Server
+# author:         Gary A. Stafford (https://programmaticponderings.com)
+# url:            https://github.com/garystafford/vagrant-gocd
+# description:    Bootstrap a GoCD Server/Agent Server
+# usage:          sh ./bootstrap.sh
+########################################################################
+
+# set -ex
 
 cd /vagrant
 
 # Install Oracle JDK
-file=jdk-8u60-linux-x64.rpm
-sudo rpm -ivh ${file}
-sed -i.bkp '/PATH=/i export JAVA_HOME=/usr/java/jdk1.8.0_60' /home/vagrant/.bash_profile
+sudo rpm -ivh jdk-8u101-linux-x64.rpm
+printf "export JAVA_HOME=/usr/java/jdk1.8.0_101\nexport PATH=\$PATH:\$JAVA_HOME/bin" > /etc/profile.d/java.sh
+. /etc/profile.d/java.sh
+# check installation
 javac -version
 
 # Install Gradle
-version=2.7
-file=gradle-${version}-bin.zip
-sudo yum install -y unzip
-unzip ${file}
-sudo mkdir /usr/local/gradle/
-sudo mv gradle-${version} /usr/local/gradle/gradle-${version}
-sed -i.bkp '/PATH=/i export GRADLE_HOME=/usr/local/gradle/gradle-2.7' /home/vagrant/.bash_profile
-gradle --version
+# (https://gist.github.com/parzonka/9371885 - pzbitskiy)
+gradle_version=3.1
+mkdir /opt/gradle
+wget -N http://services.gradle.org/distributions/gradle-${gradle_version}-all.zip
+unzip -oq ./gradle-${gradle_version}-all.zip -d /opt/gradle
+ln -sfnv gradle-${gradle_version} /opt/gradle/latest
+printf "export GRADLE_HOME=/opt/gradle/latest\nexport PATH=\$PATH:\$GRADLE_HOME/bin" > /etc/profile.d/gradle.sh
+. /etc/profile.d/gradle.sh
+hash -r ; sync
+# check installation
+gradle -v
 
-# Install go-server and go-agent
-version=15.2.0-2248
-sudo rpm -ivh go-server-${version}.noarch.rpm
-sleep 10
-sudo rpm -ivh go-agent-${version}.noarch.rpm
+# Install GoCD Server/Agent
+# (https://docs.go.cd/current/installation/install/server/linux.html#rpm-based-distributions-ie-redhatcentosfedora)
+echo "
+[gocd]
+name     = GoCD YUM Repository
+baseurl  = https://download.go.cd
+enabled  = 1
+gpgcheck = 1
+gpgkey   = https://download.go.cd/GOCD-GPG-KEY.asc
+" | sudo tee /etc/yum.repos.d/gocd.repo
 
-file=gocd-gradle-plugin-1.0.0.jar
+sudo mkdir -p /var/go
+sudo dnf install -y go-server
+sudo dnf install -y go-agent
+
+
+# Install Gradle plugin for GoCD
+gradle_plugin=gocd-gradle-plugin-1.0.6.jar
 plugin_path=/var/lib/go-server/plugins/external
-sudo cp ${file} ${plugin_path}/${file}
-#ip_addr=$(ip addr list eth1 |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
-ip_addr=$(hostname -I | awk '{ print $2}')
-sed -i.bkp "/PATH=/i export GO_SERVER=${ip_addr}" /home/vagrant/.bash_profile
+sudo cp ${gradle_plugin} ${plugin_path}/${gradle_plugin}
 
-sed -i.bkp '/PATH=/i PATH=$PATH:$JAVA_HOME/bin:$GRADLE_HOME/bin' /home/vagrant/.bash_profile
+# Set GoCD environment variables
+ip_addr=$(hostname -I)
+hostname=$(hostname)
+sed -i.bkp "/PATH=/i export GO_SERVER=${ip_addr}" /home/vagrant/.bash_profile
+sed -i.bkp "/PATH=/i export GO_SERVER_URL=https://${hostname}:8154/go" /home/vagrant/.bash_profile
 
 # firewalld vs. iptables
 sudo systemctl restart firewalld.service # make sure it is running
@@ -48,8 +74,10 @@ sudo firewall-cmd --zone=public --list-all
 #sudo iptables -L -n | grep 815
 # cat /var/log/go-agent/go-agent.log # check for connection errors
 
-sudo /etc/init.d/go-server restart && \
-sleep 10 && \
-sudo /etc/init.d/go-agent restart && \
-/etc/init.d/go-server status && \
-/etc/init.d/go-agent status # check status
+# Restart GoCD Server/Agent
+sudo /etc/init.d/go-server restart \
+ &&  sleep 10 \
+ && sudo /etc/init.d/go-agent restart \
+ &&  sleep 10 \
+ && /etc/init.d/go-server status \
+ && /etc/init.d/go-agent status # check status
