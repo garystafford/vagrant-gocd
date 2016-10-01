@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cruise xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="cruise-config.xsd" schemaVersion="75">
+  <server artifactsdir="artifacts" commandRepositoryLocation="default" serverId="34f1db50-fb16-4872-9316-ad51e663f06b" />
+  <agents>
+    <agent hostname="devops-server-1" ipaddress="192.168.1.76" uuid="0818f3fd-2e46-4e19-9e2c-d5c1125a5508" />
+  </agents>
+</cruise>
+
