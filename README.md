@@ -15,11 +15,14 @@ The following files need to be in the project's directory prior running `vagrant
 -   `jdk-8u101-linux-x64.rpm`
 -   `gocd-gradle-plugin-1.0.6.jar`
 
-If versions are different than above files, change the `bootstrap.sh` file to reflect version differences, before running `vagrant up`
+If versions are different than above files, change the `bootstrap.sh` file to reflect version differences.
 
-If everything started correctly, open GoCD in a browser at `http:localhost:8153/go` or secured at `https:localhost:8154/go`
+#### Startup
 
 -   To build the project, run `vagrant up` from within the project directory
+-   Total provisioning time is about 15-18 minutes, depending on Internet connection
+-   Access GoCD at [http//:localhost:8153/go](http//:localhost:8153/go)
+-   Access GoCD secured at [https//:localhost:8154/go](https//:localhost:8154/go)
 -   To recreate the project, run `vagrant destroy -f && vagrant up` from within the project directory
 -   Keep the box up-to-date with `vagrant box update`
 
