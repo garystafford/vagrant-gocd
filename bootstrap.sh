@@ -10,7 +10,7 @@
 
 # set -ex
 
-cd /vagrant
+cd /tmp
 
 # Install Oracle JDK
 # (http://stackoverflow.com/a/10959815/580268)
