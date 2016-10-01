@@ -10,6 +10,8 @@
 
 
 #### Quick Start
+Make sure your running the latest version of [Vagrant](https://www.vagrantup.com/downloads.html) (>= v1.8.6)
+
 ```bash
 git clone https://github.com/garystafford/vagrant-gocd.git
 cd vagrant-gocd
