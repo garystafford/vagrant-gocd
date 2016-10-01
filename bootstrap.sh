@@ -13,8 +13,8 @@
 cd /vagrant
 
 # Install Oracle JDK
+# (http://stackoverflow.com/a/10959815/580268)
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie"  --quiet http://download.oracle.com/otn-pub/java/jdk/8u102-b14/jdk-8u102-linux-x64.rpm
-
 printf "export JAVA_HOME=/usr/java/jdk1.8.0_102\nexport PATH=\$PATH:\$JAVA_HOME/bin" > /etc/profile.d/java.sh
 . /etc/profile.d/java.sh
 # check installation
