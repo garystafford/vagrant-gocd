@@ -8,11 +8,19 @@
 -   Install the latest versions of the Gradle (`3.1`)
 -   Install the latest Gradle plug-in for ThoughtWorks' GoCD (`1.0.6`)
 
+
+#### Quick Start
+```bash
+git clone https://github.com/garystafford/vagrant-gocd.git
+cd vagrant-gocd
+vagrant up
+```
+
 #### Dependencies
 
 The the `bootstrap.sh` script pulls these specific versions of the project's dependencies:
 
--   `jdk-8u102-linux-x64.rpm`
+-   `jdk-8u101-linux-x64.rpm`
 -   `gocd-gradle-plugin-1.0.6.jar`
 
 If updating versions, change the `bootstrap.sh` file to reflect version differences.
