@@ -37,6 +37,7 @@ If updating these versions, change the `bootstrap.sh` file to reflect version di
 -   Access GoCD secured at [https//:localhost:8154/go](https//:localhost:8154/go)
 -   To recreate the project, run `vagrant destroy -f && vagrant up` from within the project directory
 -   Keep the box up-to-date with `vagrant box update`
+-   Optional, create a SHA1 encoded password `htpasswd -c -s demo demo`, password (`foo123`)
 
 #### Troubleshooting
 
