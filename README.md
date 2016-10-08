@@ -6,7 +6,7 @@
 -   Install the latest ThoughtWorks GoCD Server and Agent (`16.10.0-4131`)
 -   Install the latest versions of the Java OpenJDK (`1.8.0_103`)
 -   Install the latest versions of the Gradle (`3.1`)
--   Install the latest Gradle plug-in for ThoughtWorks' GoCD (`1.0.6`)
+-   Install the latest Gradle plug-in for ThoughtWorks' GoCD(`1.0.6`)
 
 ![GoCD Preview](_prelims/go_cd_preview.png)
 

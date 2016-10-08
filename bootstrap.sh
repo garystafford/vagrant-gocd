@@ -52,11 +52,19 @@ sudo mkdir -p /var/go
 sudo dnf install -y go-server
 sudo dnf install -y go-agent
 
+# Hack to avoid GoCD error with Gradle:
+# 'Failed to load native library 'libnative-platform.so' for Linux amd64.'
+sudo usermod -aG vagrant go
 
 # Install Gradle plugin for GoCD
 gradle_plugin=gocd-gradle-plugin-1.0.6.jar
 plugin_path=/var/lib/go-server/plugins/external
 wget -qN https://github.com/jmnarloch/gocd-gradle-plugin/releases/download/1.0.6/${gradle_plugin}
+sudo cp ${gradle_plugin} ${plugin_path}/${gradle_plugin}
+
+# Install GitHub OAuth plugin for GoCD
+gradle_plugin=github-oauth-login-2.1.jar
+wget -qN https://github.com/gocd-contrib/gocd-oauth-login/releases/download/v2.1/${gradle_plugin}
 sudo cp ${gradle_plugin} ${plugin_path}/${gradle_plugin}
 
 # Set GoCD environment variables
